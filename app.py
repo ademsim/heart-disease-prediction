@@ -7,8 +7,8 @@ st.set_page_config(page_title="Heart Disease Predictor", page_icon="❤️")
 with open("heart_model.pkl", "rb") as f:
     model = pickle.load(f)
 
-st.title("Heart Disease Predictor")
-st.write("Hasta ölçümlerini gir, model kalp hastalığı riskini tahmin etsin.")
+st.title("❤️ Heart Disease Predictor")
+st.write("Enter the patient's measurements and the model will predict the heart disease risk.")
 
 col1, col2 = st.columns(2)
 
@@ -32,7 +32,7 @@ with col2:
 thal_normal = 1 if thal == "normal" else 0
 thal_reversible = 1 if thal == "reversible" else 0
 
-if st.button("Tahmin et"):
+if st.button("Predict"):
     input_df = pd.DataFrame([{
         "age": age,
         "sex": sex,
@@ -51,9 +51,9 @@ if st.button("Tahmin et"):
     }])
 
     prediction = model.predict(input_df)[0]
-    label = "Kalp hastalığı riski VAR" if prediction == 1 else "Kalp hastalığı riski YOK"
-    st.success(f"Tahmin: **{label}**")
+    label = "Heart disease risk: PRESENT" if prediction == 1 else "Heart disease risk: ABSENT"
+    st.success(f"Prediction: **{label}**")
 
     if hasattr(model, "predict_proba"):
         proba = model.predict_proba(input_df)[0]
-        st.write(f"Hastalık olasılığı: **{proba[1]:.2%}**")
+        st.write(f"Disease probability: **{proba[1]:.2%}**")
